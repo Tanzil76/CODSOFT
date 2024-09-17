@@ -1,109 +1,90 @@
 import java.util.Scanner;
-public class CurrencyConverter{
-    // Conversion rates 
-     static double usdToEurRate = 0.85;  
-     static double eurToUsdRate = 1.18;  
-     static double inrToUsdRate = 0.012;
-     static double inrToEurRate = 0.011;
-     static double usdToInrRate = 83.81;
-     static double eurToInrRate = 93.94;
-    // Formula to convert USD to EUR  
-     static void convertUSDToEUR() {  
-        Scanner scanner = new Scanner(System.in);  
-        System.out.print("Enter the amount in USD: ");  
-        double usdAmount = scanner.nextDouble();  
-        double eurAmount = usdAmount * usdToEurRate;  
-        System.out.println(usdAmount + " USD is equivalent to " + eurAmount + " EUR");  
-    }  
-    // Formula to convert EUR to USD  
-     static void convertEURToUSD() {  
-        Scanner scanner = new Scanner(System.in);  
-        System.out.print("Enter the amount in EUR: ");  
-        double eurAmount = scanner.nextDouble();  
-        double usdAmount = eurAmount * eurToUsdRate;  
-        System.out.println(eurAmount + " EUR is equivalent to " + usdAmount + " USD");  
-    } 
-     static void convertINRToUSD(){
+import java.util.Timer;
+import java.util.TimerTask;
+
+public class QuizApplicationWithTimer {
+    private static boolean timeUp; 
+
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter the amount in INR:");
-        double inrAmount = sc.nextDouble();
-        double usdAmount = inrAmount*inrToUsdRate;
-        System.out.println(inrAmount+ "INR is equivalnet to:" +usdAmount+ "USD");
-    }
-     static void convertINRToEUR(){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter your amount in INR:");
-        double inrAmount = sc.nextDouble();
-        double eurAmount = inrAmount*inrToEurRate;
-        System.out.println(inrAmount+ " INR is equivalent to:" +eurAmount+ "EUR");
-    }
-    static void convertUSDToINR(){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter the amount in USD:");
-        double usdAmount = sc.nextDouble();
-        double inrAmount = usdAmount*usdToInrRate;
-        System.out.println(usdAmount+ "USD is equivalnet to:" +inrAmount+ "INR");
-    }
-    static void convertEURToINR(){
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Enter the amount in EUR:");
-        double eurAmount = sc.nextDouble();
-        double inrAmount = eurAmount*eurToInrRate;
-        System.out.println(eurAmount+ "EUR is equivalnet to:" +inrAmount+ "INR");
-    }
-    public static void main(String[]args){
-        Scanner sc = new Scanner(System.in);
+        int score = 0;
 
-        System.out.println("Welcome to the Currency Converter:");
+        System.out.println("Following quiz has 10 questions with 10 seconds of time provided to attempt each\n");
+       
+        String[] questions = {  
+          "What is the capital of Norway?",
+          "Which Mughal emperor was famous as Zinda Pir?",
+          "What is the only even prime number?",
+          "Who wrote 'To Kill a Mockingbird'?",
+          "What is the chemical symbol for gold?",
+          "What year did the Titanic sink?",
+          "Who painted the Mona Lisa?",
+          "What is the largest planet in our solar system?",
+          "Which element has the atomic number 1?",
+          "What is the longest river in the world?"
+      };
+      
+      String[][] options = {  
+          {"A. Oslo", "B. New York", "C. London", "D. Kolkata"},
+          {"A. Akbar", "B. Babur", "C. Aurangzeb", "D. Shahjahan"},
+          {"A. 4", "B. 2", "C. 8", "D. 6"},
+          {"A. Harper Lee", "B. J.K. Rowling", "C. Ernest Hemingway", "D. Mark Twain"},
+          {"A. Au", "B. Ag", "C. Fe", "D. Pb"},
+          {"A. 1905", "B. 1912", "C. 1923", "D. 1935"},
+          {"A. Vincent van Gogh", "B. Claude Monet", "C. Pablo Picasso", "D. Leonardo da Vinci"},
+          {"A. Earth", "B. Mars", "C. Jupiter", "D. Saturn"},
+          {"A. Hydrogen", "B. Helium", "C. Lithium", "D. Beryllium"},
+          {"A. Nile", "B. Amazon", "C. Yangtze", "D. Mississippi"}
+      };
+      
+      char[] answers = {'A', 'C', 'B', 'A', 'A', 'B', 'D', 'C', 'A', 'B'}; 
+      
 
-        while(true){
-            System.out.println("\n Menu");
-            System.out.println("1.CONVERT EUR TO USD");
-            System.out.println("2.CONVERT USD TO EUR");
-            System.out.println("3.CONVERT INR TO USD");
-            System.out.println("4.CONVERT INR TO EUR");
-            System.out.println("5.CONVERT USD TO INR");
-            System.out.println("6.CONVERT EUR TO INR");
-            System.out.println("7.QUIT");
+        for (int currentQuestion = 0; currentQuestion < questions.length; currentQuestion++) { 
+            System.out.println("Q"+(currentQuestion+1)+". "+questions[currentQuestion]);
 
-            System.out.println("Enter Your Choice:");
+            for (int j = 0; j < options[currentQuestion].length; j++) {  
+                System.out.println(options[currentQuestion][j]);          
+            }
 
-            int choice = sc.nextInt();
-             switch(choice){
-                case 1:
-                convertEURToUSD();
-                break;
+            timeUp = false; 
+            Timer timer = new Timer();
+            timer.schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    
+                    if (!timeUp) {
+                        System.out.println("\nTime's up! Press any button to move to the next question\n");
+                        timeUp = true; 
+                    }
+                }
+            }, 10000); 
 
-                case 2:
-                convertUSDToEUR();
-                break;
-                      
-                case 3:
-                convertINRToUSD();
-                break;
+            
 
-                case 4:
-                convertINRToEUR();
-                break;
+            
+            System.out.print(" type your answer (A/B/C/D) and press enter: ");
+            char userAnswer = Character.toUpperCase(sc.next().charAt(0));
 
-                case 5:
-                convertUSDToINR();
-                break;
+            
+            timer.cancel();
 
-                case 6:
-                convertEURToINR();
-                break;
+            
+            if (timeUp) {
+              continue;
+          }
 
-                case 7:
-                System.out.println("Thanks for using the currency converter");
-                //close the scanner.
-                sc.close();
-                return;
-                default:
-                System.out.println("Invalid choice.Please try again");
-                 
-             }
-
+            
+            if (userAnswer == answers[currentQuestion]) {
+                System.out.println("Correct!");
+                score++;
+            } else {
+                System.out.println("Incorrect. The correct answer was option " + answers[currentQuestion] + ".");
+            }
         }
+
+        
+        System.out.println("Quiz finished! Your final score is: " + score + "/" + questions.length);
+        sc.close();
     }
 }
